@@ -27,22 +27,14 @@ public class SpringSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception { //responsible for securing HTTP requests
 
         httpSecurity
-//                .csrf(csrf -> csrf.ignoringRequestMatchers(
-//                        (request)->{
-//                            request.getMethod().equals(HttpMethod.DELETE.name());
-//                            request.getRequestURI().equals("/api/**");
-//                            return true;
-//                        }
-//                 ))
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers("/api/**")
                 )
                 .authorizeHttpRequests((authorize)->{ //ensures that all HTTP requests require authentication
-//                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.PUT,"/api/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT,"/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN");
                     authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll(); //grants permission to all users,including unauthenticated users,
-
 
 
                     authorize.anyRequest().authenticated();

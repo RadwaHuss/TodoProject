@@ -22,6 +22,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 //basic authentication, ensures all HTTP requests are authenticated and sets up CSRF protection.
 @Configuration
 @AllArgsConstructor
+@EnableMethodSecurity
 public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception { //responsible for securing HTTP requests
@@ -31,11 +32,6 @@ public class SpringSecurityConfig {
                         .ignoringRequestMatchers("/api/**")
                 )
                 .authorizeHttpRequests((authorize)->{ //ensures that all HTTP requests require authentication
-                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.PUT,"/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll(); //grants permission to all users,including unauthenticated users,
-
 
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
